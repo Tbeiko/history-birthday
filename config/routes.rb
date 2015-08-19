@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  root to: 'events#show'
+  root to: 'events#index'
+  post '/', to: 'events#index'
 end

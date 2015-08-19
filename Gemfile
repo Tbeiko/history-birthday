@@ -13,6 +13,7 @@ gem 'bcrypt-ruby', '3.1.2'
 gem 'shoulda-matchers'
 gem 'fabrication'
 gem 'sqlite3'
+gem 'turbolinks'
 
 group :development do
   gem 'thin'
