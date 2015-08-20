@@ -19,16 +19,62 @@ describe EventsController do
         3.times { Fabricate(:event) }
       end
     context "with invalid input" do 
-      it "should set the @event variable to nil" do 
+      it "should set the @event variable to nil if a required_param is missing" do 
         post :index, { month: 01, year: 1992 }
         expect(assigns(:event)).to be_nil
       end
+
+      it "should set @invalid to true if the date is higher than 31" do 
+          post :index, { day: 32, month: 01, year: 1990 }
+          expect(assigns(:invalid)).to be_truthy
+      end
+
+      it "should set @invalid to true if the month is higher than 12" do 
+          post :index, { day: 30, month: 13, year: 1990 }
+          expect(assigns(:invalid)).to be_truthy
+      end
+
+      it "should set @invalid to true if the year is higher than 2100" do 
+          post :index, { day: 30, month: 12, year: 2101 }
+          expect(assigns(:invalid)).to be_truthy
+      end
+
+      it "should set @invalid to true if the month is april and the date is higher than 30" do 
+        post :index, { day: 31, month: 4, year: 2000 }
+        expect(assigns(:invalid)).to be_truthy
+      end
+
+      it "should set @invalid to true if the month is june and the date is higher than 30" do 
+        post :index, { day: 31, month: 6, year: 2000 }
+        expect(assigns(:invalid)).to be_truthy
+      end
+
+      it "should set @invalid to true if the month is september and the date is higher than 30" do 
+        post :index, { day: 31, month: 9, year: 2000 }
+        expect(assigns(:invalid)).to be_truthy
+      end
+
+      it "should set @invalid to true if the month is november and the date is higher than 30" do 
+        post :index, { day: 31, month: 11, year: 2000 }
+        expect(assigns(:invalid)).to be_truthy      
+      end
+
+      it "should set @invalid to true if the month is febuary and the year is divisible by 4 and the date is higher than 29" do 
+        post :index, { day: 30, month: 2, year: 2000 }
+        expect(assigns(:invalid)).to be_truthy      
+      end
+
+      it "if the month is febuary and the year is not divisible by 4 and the date is higher than 28" do 
+        post :index, { day: 29, month: 2, year: 2001 }
+        expect(assigns(:invalid)).to be_truthy      
+      end
+
       it "should render the index template" do 
         post :index, { month: 01, year: 1992 }
         expect(response).to render_template :index
       end
-      # Will implement later
-      # it "should give an error message"
+
+      it "should give an error message"
     end
 
     context "with valid input" do 
@@ -50,6 +96,11 @@ describe EventsController do
         post :index, { day: first_event.day, month: first_event.month, year: first_event.year }
         expect(assigns(:events).count).to eq(2)
         expect(assigns(:event).day).to eq(first_event.day)
+      end
+
+      it "should set the @invalid variable to false" do 
+        post :index, { day: 29, month: 2, year: 2000}
+        expect(assigns(:invalid)).to be_falsy      
       end
     end
   end
