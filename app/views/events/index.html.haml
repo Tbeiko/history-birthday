@@ -9,3 +9,9 @@
           = f.text_field :month, label: "Month"
           = f.text_field :year,  label: "Year"
           %button.btn.btn-default(type="submit") Submit
+  .row
+    .col-sm-10.col-sm-offset-1
+      - if @event
+        %h2 #{@event.actor} #{@event.action} on #{@event.month} #{@event.day}, #{@event.year}
+      - else
+        %h2 We can't think of anything historical that's happened on your birthday... you better make history!
