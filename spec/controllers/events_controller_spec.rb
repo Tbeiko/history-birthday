@@ -24,11 +24,6 @@ describe EventsController do
         expect(assigns(:event)).to be_nil
       end
 
-      it "should set @invalid to true if the day or month are missing" do 
-        post :index, { day: nil, month: nil, year: 1990 }
-        expect(assigns(:invalid)).to be_truthy
-      end
-
       it "should set @invalid to true if the day or month are negative" do 
         post :index, { day: -1, month: -1, year: 1990 }
         expect(assigns(:invalid)).to be_truthy

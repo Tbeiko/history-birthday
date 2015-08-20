@@ -10,11 +10,13 @@
           = f.number_field :month, label: "Month"
           = f.number_field :year,  label: "Year"
           %button.btn.btn-default(type="submit") Submit
-  .row
-    .col-sm-10.col-sm-offset-1.events
-      - if @event
-        %h2 #{@event.actor} #{@event.action} on #{@event.month_word} #{@event.day}, #{@event.year}
-      - elsif @invalid
-        = render 'layouts/messages'
-      - else
-        %h2 We can't think of anything historical that's happened on your birthday... you better make history!
+          
+  - unless blank_params?
+    .row
+      .col-sm-10.col-sm-offset-1.events
+        - if @event
+          %h2 #{@event.actor} #{@event.action} on #{@event.month_word} #{@event.day}, #{@event.year}
+        - elsif @invalid
+          = render 'layouts/messages'
+        - else
+          %h2 We can't think of anything historical that's happened on your birthday... you better make history!

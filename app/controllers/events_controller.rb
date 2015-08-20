@@ -18,15 +18,15 @@ class EventsController < ApplicationController
 
   private 
   def invalid_input?
-    blank_params? || negative_months? || numbers_too_high? || day_is_higher_than_days_in_month?
+    negative_days? || negative_months? || numbers_too_high? || day_is_higher_than_days_in_month?
   end
 
-  def blank_params?
-    params[:day].blank? || params[:month].blank?
+  def negative_days?
+    !params[:day].nil? && (params[:day].to_i < 1)
   end
 
   def negative_months?
-    (params[:day].to_i < 1) || (params[:month].to_i < 1 )
+    !params[:month].nil? && (params[:month].to_i < 1 )
   end
 
   def numbers_too_high?
