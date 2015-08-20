@@ -17,19 +17,24 @@ class EventsController < ApplicationController
   end
 
   private 
-
   def invalid_input?
-    if    params[:day].blank? || params[:month].blank?
-      true
-    elsif (params[:day].to_i < 1)|| (params[:month].to_i < 1 )
-      true
-    elsif params[:day].to_i   > 31
-      true
-    elsif params[:month].to_i > 12
-      true
-    elsif params[:year].to_i  > 2100
-      true
-    elsif params[:day].to_i == 31 && params[:month].to_i.in?([4, 6, 9, 11]) 
+    blank_params? || negative_months? || numbers_too_high? || day_is_higher_than_days_in_month?
+  end
+
+  def blank_params?
+    params[:day].blank? || params[:month].blank?
+  end
+
+  def negative_months?
+    (params[:day].to_i < 1) || (params[:month].to_i < 1 )
+  end
+
+  def numbers_too_high?
+    (params[:day].to_i > 31) || (params[:month].to_i > 12) || (params[:year].to_i  > 2100)
+  end
+
+  def day_is_higher_than_days_in_month?
+    if    params[:day].to_i == 31 && params[:month].to_i.in?([4, 6, 9, 11]) 
       true
     elsif params[:day].to_i >  29 && params[:month].to_i == 2
       true
