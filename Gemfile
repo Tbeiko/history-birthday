@@ -12,7 +12,6 @@ gem 'bootstrap_form'
 gem 'bcrypt-ruby', '3.1.2' 
 gem 'shoulda-matchers'
 gem 'fabrication'
-gem 'sqlite3'
 gem 'turbolinks'
 
 group :development do
@@ -26,6 +25,7 @@ group :development, :test do
   gem 'pry-nav'
   gem 'rspec-rails', '2.99'
   gem 'faker'
+  gem 'sqlite3'
 end
 
 group :test do
@@ -36,4 +36,5 @@ end
 
 group :production do
   gem 'rails_12factor'
+  gem 'mysql2'
 end
