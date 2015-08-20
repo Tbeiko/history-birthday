@@ -12,7 +12,10 @@ feature "user searches for a date" do
     expect(page).to have_content("We can't think of")
   end
   
-  scenario "user searches for an invalid date"
+  scenario "user searches for an invalid date" do 
+    fill_in_search_form_with(0, 0, 10000)
+    expect(page).to have_content("Something was wrong with the date you entered.")
+  end
   
   def fill_in_search_form_with(day, month, year)
     visit root_path

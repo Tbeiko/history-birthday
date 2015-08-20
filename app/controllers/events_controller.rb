@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   def index
     if invalid_input?
       @invalid = true 
+      flash[:danger] = "Something was wrong with the date you entered. Please try again."
     else
       @events  = Event.where(day: params[:day], month: params[:month]) unless Event.all.empty?
       if [*@events].count > 1
@@ -18,7 +19,11 @@ class EventsController < ApplicationController
   private 
 
   def invalid_input?
-    if    params[:day].to_i   > 31
+    if    params[:day].blank? || params[:month].blank?
+      true
+    elsif (params[:day].to_i < 1)|| (params[:month].to_i < 1 )
+      true
+    elsif params[:day].to_i   > 31
       true
     elsif params[:month].to_i > 12
       true

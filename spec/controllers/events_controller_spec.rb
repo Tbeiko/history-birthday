@@ -24,19 +24,30 @@ describe EventsController do
         expect(assigns(:event)).to be_nil
       end
 
+      it "should set @invalid to true if the day or month are missing" do 
+        post :index, { day: nil, month: nil, year: 1990 }
+        expect(assigns(:invalid)).to be_truthy
+      end
+
+      it "should set @invalid to true if the day or month are negative" do 
+        post :index, { day: -1, month: -1, year: 1990 }
+        expect(assigns(:invalid)).to be_truthy
+      end
+
+
       it "should set @invalid to true if the date is higher than 31" do 
-          post :index, { day: 32, month: 01, year: 1990 }
-          expect(assigns(:invalid)).to be_truthy
+        post :index, { day: 32, month: 01, year: 1990 }
+        expect(assigns(:invalid)).to be_truthy
       end
 
       it "should set @invalid to true if the month is higher than 12" do 
-          post :index, { day: 30, month: 13, year: 1990 }
-          expect(assigns(:invalid)).to be_truthy
+        post :index, { day: 30, month: 13, year: 1990 }
+        expect(assigns(:invalid)).to be_truthy
       end
 
       it "should set @invalid to true if the year is higher than 2100" do 
-          post :index, { day: 30, month: 12, year: 2101 }
-          expect(assigns(:invalid)).to be_truthy
+        post :index, { day: 30, month: 12, year: 2101 }
+        expect(assigns(:invalid)).to be_truthy
       end
 
       it "should set @invalid to true if the month is april and the date is higher than 30" do 
@@ -74,7 +85,10 @@ describe EventsController do
         expect(response).to render_template :index
       end
 
-      it "should give an error message"
+      it "should give an error message" do 
+        post :index, { month: 01, year: 100000 }
+        expect(flash[:danger]).to be_present
+      end
     end
 
     context "with valid input" do 
