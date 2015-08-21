@@ -1,6 +1,14 @@
 class Event < ActiveRecord::Base
   validates_presence_of :day, :month, :year, :actor, :action
 
+  def full_description
+    if self.description.blank?
+      "#{self.actor} #{self.action} on #{self.month_word} #{self.day}, #{self.year}"
+    else
+      "#{self.actor} #{self.action} #{self.description} on #{self.month_word} #{self.day}, #{self.year}"
+    end
+  end
+
   def month_word
     case self.month
     when 1

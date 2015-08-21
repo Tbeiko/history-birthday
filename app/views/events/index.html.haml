@@ -15,7 +15,7 @@
     .row
       .col-sm-10.col-sm-offset-1.events
         - if @event
-          %h2 #{@event.actor} #{@event.action} on #{@event.month_word} #{@event.day}, #{@event.year}
+          %h2 #{@event.full_description}
         - elsif @invalid
           = render 'layouts/messages'
         - else
