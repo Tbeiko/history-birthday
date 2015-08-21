@@ -1,3 +1,7 @@
 == README
 
-Simple application that generates a random event that happened in history on the day of your birthday.
+Simple application that shows a random event that happened in history on the day of your birthday.
+It also links to the wikipedia page corresponding to it.
+
+All historical data is provided by http://histolines.com/.
+
