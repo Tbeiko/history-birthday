@@ -10,11 +10,11 @@ class Event < ActiveRecord::Base
   end
 
   def wikipedia_url
-    actor = self.actor.parameterize("_").underscore
+    actor = self.actor.tr(" ","_")
     if self.description.blank?
       "https://en.wikipedia.org/wiki/#{actor}"
     else
-      description = self.description.parameterize("_").underscore
+      description = self.description.tr(" ","_")
       "https://en.wikipedia.org/wiki/#{actor}##{description}"
     end
   end

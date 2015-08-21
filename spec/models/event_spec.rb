@@ -23,14 +23,14 @@ describe Event do
     context "without description" do 
       let(:event) { Fabricate(:event, actor: "Jeb Bush", description: nil) }
       it "should replace spaces in the event's actor by underscores, downcase all letters and prefix it with 'https://en.wikipedia.org/wiki/' " do 
-        expect(event.wikipedia_url).to eq("https://en.wikipedia.org/wiki/jeb_bush")
+        expect(event.wikipedia_url).to eq("https://en.wikipedia.org/wiki/Jeb_Bush")
       end
     end
 
     context "with description" do 
       let(:event) { Fabricate(:event, actor: "Jeb Bush", description: "healthy and pretty") }
       it "should replace spaces with underscores, join the actor and description with '#' and prefix everything with 'https://en.wikipedia.org/wiki/' " do 
-        expect(event.wikipedia_url).to eq("https://en.wikipedia.org/wiki/jeb_bush#healthy_and_pretty")
+        expect(event.wikipedia_url).to eq("https://en.wikipedia.org/wiki/Jeb_Bush#healthy_and_pretty")
       end
     end
   end
