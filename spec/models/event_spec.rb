@@ -7,6 +7,34 @@ describe Event do
   it { should validate_presence_of(:actor) }
   it { should validate_presence_of(:action) }
 
+  describe "#full_description" do 
+    it "should include the actor, action, day, month and year if no description" do 
+      event = Fabricate(:event, description: nil)
+      expect(event.full_description).to eq("#{event.actor} #{event.action} on #{event.month_word} #{event.day}, #{event.year}")
+    end
+
+    it "should include the actor, action, description, day, month and year if there is a description" do 
+      event = Fabricate(:event, description: "tall")
+      expect(event.full_description).to eq("#{event.actor} #{event.action} #{event.description} on #{event.month_word} #{event.day}, #{event.year}")
+    end
+  end
+
+  describe "#wikipedia_url" do
+    context "without description" do 
+      let(:event) { Fabricate(:event, actor: "Jeb Bush", description: nil) }
+      it "should replace spaces in the event's actor by underscores, downcase all letters and prefix it with 'https://en.wikipedia.org/wiki/' " do 
+        expect(event.wikipedia_url).to eq("https://en.wikipedia.org/wiki/jeb_bush")
+      end
+    end
+
+    context "with description" do 
+      let(:event) { Fabricate(:event, actor: "Jeb Bush", description: "healthy and pretty") }
+      it "should replace spaces with underscores, join the actor and description with '#' and prefix everything with 'https://en.wikipedia.org/wiki/' " do 
+        expect(event.wikipedia_url).to eq("https://en.wikipedia.org/wiki/jeb_bush#healthy_and_pretty")
+      end
+    end
+  end
+
   describe "#month_word" do 
     it "should return 'January' if the month is 1" do 
       event = Fabricate(:event, month: 1)

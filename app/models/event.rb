@@ -9,6 +9,16 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def wikipedia_url
+    actor = self.actor.parameterize("_").underscore
+    if self.description.blank?
+      "https://en.wikipedia.org/wiki/#{actor}"
+    else
+      description = self.description.parameterize("_").underscore
+      "https://en.wikipedia.org/wiki/#{actor}##{description}"
+    end
+  end
+
   def month_word
     case self.month
     when 1
